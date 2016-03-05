@@ -14,7 +14,8 @@
     "gcloud": "^0.28.0",
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "sparkpost": "^1.1.0"
   },
   "description": "Send and receive end-to-end encrypted emails.",
   "main": "bin/www",
