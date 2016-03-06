@@ -4,33 +4,24 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-// var config = require('./config');
-// var session = require('express-session');
-// var gcloud = require('gcloud')(config.gcloud);
-// var DatastoreStore = require('cloud-datastore-session')(session);
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
 var mailbox = require('./routes/mailbox');
 var app = express();
 
+app.use(session({
+    store: new RedisStore(),
+    secret: 'very car mere large wood',
+    saveUninitialized: false,
+    resave: false
+}));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-/*
-app.use(session({
-  store: new DatastoreStore({
-    dataset: gcloud.datastore.dataset({
-      prefix: 'express-sessions',
-      projectId: config.gcloud.projectId,
-    })
-  }),
-  secret: 'my-secret',
-  resave: false,
-  saveUninitialized: false
-}));
-*/
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
