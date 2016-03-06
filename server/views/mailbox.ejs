@@ -12,6 +12,8 @@
         <script src="/js/openpgp.min.js"></script>
         <script src="/js/encoding_indexes.js"></script>
         <script src="/js/encoding.js"></script>
+
+        <script src="/js/kbpgp-2.0.8-min.js"></script>
 </head>
 
 <body ng-controller="controller">
@@ -59,7 +61,7 @@
                                     <p class="list-group-item-text mess-long">{{cur.message}}</p>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-info-btn-lg" id="btn-delete">Delete</button>
+                                    <button type="button" class="btn btn-info-btn-lg" id="btn-delete onclick=deletePost(this)">Delete</button>
                                 </div>
                             </div>
                         </a>
@@ -205,6 +207,10 @@
             });
         }
 
+        function deletePost(post) {
+            console.log(post);
+        }
+
         function closeModal() {
             $("#newMessageModal").modal('hide');
             $("#reciept").val('');
@@ -228,29 +234,61 @@
                 var sub = $("#subject").val();
                 var raw_message = $("#message").val();
 
-                var key = data;
-                var pub_key = openpgp.key.readArmored(key).keys;
-
-                options = {
-                    // data: raw_message,
-                    data: new TextEncoder('utf-8').encode(raw_message),
-                    publicKeys: openpgp.key.readArmored(key).keys, // for encryption
-                    // privateKeys: opengpg.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
-                    armor: false
+                var params = {
+                    encrypt_for: to,
+                    msg: raw_message
                 };
 
-                openpgp.encrypt(options).then(function(ciphertext) {
-                    encrypted = ciphertext.message.packets.write();
-                    console.log(encrypted)
-                    post("https://sealify.me/api/send", {
-                        "userfrom": "trombeard",
-                        "userto": to,
-                        "subject": sub,
-                        "message": encrypted
-                    }, null);
-                    // var encrypted = ciphertext.message.packets.write();
-                    // post("https://sealify.me/api/send", {"userto" : to, "subject" : sub, "message" : encrypted}, undefined);
+                kbpgp.KeyManager.import_from_armored_pgp({
+                    armored: data
+                }, function(err, alice) {
+                    if (!err) {
+                        console.log("alice is loaded");
+                    }
                 });
+
+                post("https://sealify.me/api/send", {
+                    "userto": to,
+                    "subject": sub,
+                    "message": raw_message
+                }, undefined);
+
+                // var result_string, result_buffer;
+                // kbpgp.box(params, function(err, result_string, result_buffer) {
+                //     console.log(err, result_string, result_buffer);
+                //     console.log(encrypted)
+                //     post("https://sealify.me/api/send", {
+                //         "userto": to,
+                //         "subject": sub,
+                //         "message": result_string
+                //     }, undefined);
+                // });
+
+
+
+                // var key = data;
+                // var pub_key = openpgp.key.readArmored(key).keys;
+
+                // options = {
+                //     // data: raw_message,
+                //     data: new TextEncoder('utf-8').encode(raw_message),
+                //     publicKeys: openpgp.key.readArmored(key).keys, // for encryption
+                //     // privateKeys: opengpg.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
+                //     armor: false
+                // };
+
+                // openpgp.encrypt(options).then(function(ciphertext) {
+                //     encrypted = ciphertext.message.packets.write();
+                //     console.log(encrypted)
+                //     post("https://sealify.me/api/send", {
+                //         "userfrom": "trombeard",
+                //         "userto": to,
+                //         "subject": sub,
+                //         "message": encrypted
+                //     }, null);
+                //     // var encrypted = ciphertext.message.packets.write();
+                //     // post("https://sealify.me/api/send", {"userto" : to, "subject" : sub, "message" : encrypted}, undefined);
+                // });
 
                 closeModal();
             })
