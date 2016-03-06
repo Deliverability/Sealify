@@ -155,7 +155,9 @@ router.post('/send', function(req, res, next) {
     return;
   }
   mail = db.collection('email');
-  mail.insertOne(req.body, function(err, result) {
+  msg = req.body;
+  msg.userfrom = req.session.user;
+  mail.insertOne(msg, function(err, result) {
     if(err) {
       res.status(500);
       res.send(err);
@@ -163,6 +165,22 @@ router.post('/send', function(req, res, next) {
     }
     res.send(result);
   });
+});
+
+router.get('/me', function(req, res, next) {
+    if(db == null) {
+        res.status(500);
+        res.send("No mongo connection, please try again later");
+        return;
+    }
+    if(!req.session.user) {
+        res.status(401);
+        res.send("Not logged in");
+        return;
+    }
+    users.findOne({'user': req.session.user}, function(err, docs) {
+        res.send(docs);
+    });
 });
 
 module.exports = router;
