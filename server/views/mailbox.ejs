@@ -4,16 +4,16 @@
 <head>
     <title>Mailbox | Sealify</title>
     <%include templates/bootstrap.ejs%>
-        <link rel="stylesheet" type="text/css" href="css/mail.css">
+    <link rel="stylesheet" type="text/css" href="css/mail.css">
 
-        <script src="/js/jquery.easy-autocomplete.min.js"></script>
-        <link rel="stylesheet" href="/js/easy-autocomplete.min.css">
+    <script src="/js/jquery.easy-autocomplete.min.js"></script>
+    <link rel="stylesheet" href="/js/easy-autocomplete.min.css">
 
-        <script src="/js/openpgp.min.js"></script>
-        <script src="/js/encoding_indexes.js"></script>
-        <script src="/js/encoding.js"></script>
+    <script src="/js/openpgp.min.js"></script>
+    <script src="/js/encoding_indexes.js"></script>
+    <script src="/js/encoding.js"></script>
 
-        <script src="/js/kbpgp-2.0.8-min.js"></script>
+    <script src="/js/kbpgp-2.0.8-min.js"></script>
 </head>
 
 <body ng-controller="controller">
@@ -29,16 +29,16 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="dropdown">
                                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Signed in as {{username}}@sealify.me<span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="/api/logout">Sign out</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                                  <ul class="dropdown-menu">
+                                    <li><a href="/api/logout">Sign out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
         <div class="row">
           <div class="col-md-12">
                         <button type="button" class="btn btn-info btn-lg" id="btn-compose" data-toggle="modal" data-target="#newMessageModal">Compose</button>
@@ -72,97 +72,88 @@
                                 </div>
                             </div>
                         </a>
+=======
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-info btn-lg" id="btn-compose" data-toggle="modal" data-target="#newMessageModal">Compose</button>
+        <button type="button" class="btn btn-info btn-lg" id="btn-private" data-toggle="modal" data-target="#privateKeyModal">Private Key</button>
+        <br><br>
+    </div>
+</div>
+<div class="row">
+ <div class="col-md-8 col-md-offset-2">
+    <div class="list-group">
+        <div ng-repeat="cur in mailbox">
+            <a class="list-group-item message-div" onclick="clickMessage(this)">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h5 class="list-group-item-heading">{{cur.userfrom}}</h5>
+                    </div>
+                    <div class="col-md-7">
+                        <h4 class="list-group-item-heading">{{cur.subject}}</h4>
+                        <p class="list-group-item-text mess-short">{{cur.message.substring(0, 60)}}</p>
+                        <p class="list-group-item-text mess-long">{{cur.message}}</p>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-info-btn-lg" ng-attr-id="{{cur._id}}" onclick="deletePost(this)">Delete</button>
+>>>>>>> 7dd5b017bdefa527440647faae85d3fc259adcda
                     </div>
                     </div>
                 </div>
-               </div>
-               </div>
+            </a>
+        </div>
+    </div>
+</div>
+</div>
 
-            <!-- Modal -->
-            <div id="newMessageModal" class="modal fade" role="dialog">
-                <div class="modal-dialog modal-lg">
+<!-- Modal -->
+<div id="newMessageModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
 
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">New Message</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="row" id="reciept-row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="reciept">To:</label>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" id="reciept">
-                                                        <div class="input-group-addon">@sealify.me</div>
-                                                    </div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">New Message</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="row" id="reciept-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="reciept">To:</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="reciept">
+                                            <div class="input-group-addon">@sealify.me</div>
+                                        </div>
 
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row" id="subject-row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="subject">Subject:</label>
-                                                    <input type="text" class="form-control" id="subject">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row" id="message-row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="message">Message:</label>
-                                                    <textarea type="text" class="form-control" rows="8" id="message"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="message-error"></div>
-                                        <div class="row" id="send-button-container">
-                                            <div class="col-md-3 col-md-offset-9">
-                                                <button type="button" class="btn btn-primary" id="btn-close" onclick="closeModal()">Close</button>
-                                                <button type="button" class="btn btn-primary" id="btn-send" onclick="sendMail()">Send</button>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div id="privateKeyModal" class="modal fade" role="dialog">
-                <div class="modal-dialog modal-lg">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Enter Private Key</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-10 col-md-offset-1">
-                                        <div class="row" id="message-row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="message">Key:</label>
-                                                    <textarea type="text" class="form-control" rows="8" id="key"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row" id="send-button-container">
-                                            <div class="col-md-3 col-md-offset-9">
-                                                <button type="button" class="btn btn-primary" id="btn-send" onclick="submitKey()">Enter</button>
-                                            </div>
-                                        </div>
+                            <div class="row" id="subject-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="subject">Subject:</label>
+                                        <input type="text" class="form-control" id="subject">
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row" id="message-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="message">Message:</label>
+                                        <textarea type="text" class="form-control" rows="8" id="message"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="message-error"></div>
+                            <div class="row" id="send-button-container">
+                                <div class="col-md-3 col-md-offset-9">
+                                    <button type="button" class="btn btn-primary" id="btn-close" onclick="closeModal()">Close</button>
+                                    <button type="button" class="btn btn-primary" id="btn-send" onclick="sendMail()">Send</button>
                                 </div>
                             </div>
                         </div>
@@ -171,167 +162,177 @@
             </div>
         </div>
     </div>
-    <script>
-        function clickMessage(obj) {
-            $(obj.children[0].children[1].children[1]).toggle()
-            $(obj.children[0].children[1].children[2]).toggle()
-        }
 
-        var options = {
-            url: function() {
-                if ($("#reciept").val() === "") {
-                    return "https://keybase.io/_/api/1.0/user/autocomplete.json"
-                }
-                return "https://keybase.io/_/api/1.0/user/autocomplete.json?q=" + $("#reciept").val();
-            },
+</div>
 
-            getValue: function(element) {
-                return element['components']['username']['val'];
-            },
+<div id="privateKeyModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
 
-            ajaxSettings: {
-                dataType: "json",
-                method: "GET",
-                data: {
-                    dataType: "json"
-                }
-            },
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter Private Key</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="row" id="message-row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="message">Key:</label>
+                                        <textarea type="text" class="form-control" rows="8" id="key"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="send-button-container">
+                                <div class="col-md-3 col-md-offset-9">
+                                    <button type="button" class="btn btn-primary" id="btn-send" onclick="submitKey()">Enter</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<script>
+    function clickMessage(obj) {
+        $(obj.children[0].children[1].children[1]).toggle()
+        $(obj.children[0].children[1].children[2]).toggle()
+    }
 
-            listLocation: "completions"
-        };
-
-        $("#reciept").easyAutocomplete(options);
-
-        function post(url, data) {
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: JSON.stringify(data),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8"
-            });
-        }
-
-        function deletePost(p) {
-            console.log(p);
-            post("/api/delete", {
-                "_id": p['id']
-            });
-        }
-
-        function closeModal() {
-            $("#newMessageModal").modal('hide');
-            $("#reciept").val('');
-            $("#subject").val('');
-            $("#message").val('');
-        }
-
-        function email_error() {
-            $("<div class='alert alert-danger' role='alert'><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><span class='sr-only'>Error:</span> Invalid recipient.</div>").appendTo(".message-error");
-        }
-
-        function sendMail() {
-            $('.message-error').empty()
+    var options = {
+        url: function() {
             if ($("#reciept").val() === "") {
-                email_error();
-                return;
+                return "https://keybase.io/_/api/1.0/user/autocomplete.json"
             }
+            return "https://keybase.io/_/api/1.0/user/autocomplete.json?q=" + $("#reciept").val();
+        },
 
-            $.get("https://keybase.io/" + $("#reciept").val() + "/key.asc", function(data) {
-                var to = $("#reciept").val();
-                var sub = $("#subject").val();
-                var raw_message = $("#message").val();
+        getValue: function(element) {
+            return element['components']['username']['val'];
+        },
 
-                var params = {
-                    encrypt_for: to,
-                    msg: raw_message
-                };
+        ajaxSettings: {
+            dataType: "json",
+            method: "GET",
+            data: {
+                dataType: "json"
+            }
+        },
 
-                kbpgp.KeyManager.import_from_armored_pgp({
-                    armored: data
-                }, function(err, alice) {
-                    if (!err) {
-                        console.log("alice is loaded");
-                    }
-                });
+        listLocation: "completions"
+    };
 
-                post("/api/send", {
-                    "userto": to,
-                    "subject": sub,
-                    "message": raw_message
-                });
+    $("#reciept").easyAutocomplete(options);
 
-                // var result_string, result_buffer;
-                // kbpgp.box(params, function(err, result_string, result_buffer) {
-                //     console.log(err, result_string, result_buffer);
-                //     console.log(encrypted)
-                //     post("https://sealify.me/api/send", {
-                //         "userto": to,
-                //         "subject": sub,
-                //         "message": result_string
-                //     });
-                // });
+    function post(url, data, success) {
+        console.log(data);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify(data),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: success
+        });
+    }
 
+    function deletePost(p) {
+        console.log(p);
+        post("/api/delete", {
+            "_id": p['id']
+        });
+        location.reload();
+    }
 
+    function closeModal() {
+        $("#newMessageModal").modal('hide');
+        $("#reciept").val('');
+        $("#subject").val('');
+        $("#message").val('');
+    }
 
-                // var key = data;
-                // var pub_key = openpgp.key.readArmored(key).keys;
+    function email_error() {
+        $("<div class='alert alert-danger' role='alert'><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><span class='sr-only'>Error:</span> Invalid recipient.</div>").appendTo(".message-error");
+    }
 
-                // options = {
-                //     // data: raw_message,
-                //     data: new TextEncoder('utf-8').encode(raw_message),
-                //     publicKeys: openpgp.key.readArmored(key).keys, // for encryption
-                //     // privateKeys: opengpg.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
-                //     armor: false
-                // };
-
-                // openpgp.encrypt(options).then(function(ciphertext) {
-                //     encrypted = ciphertext.message.packets.write();
-                //     console.log(encrypted)
-                //     post("https://sealify.me/api/send", {
-                //         "userfrom": "trombeard",
-                //         "userto": to,
-                //         "subject": sub,
-                //         "message": encrypted
-                //     }, null);
-                //     // var encrypted = ciphertext.message.packets.write();
-                //     // post("https://sealify.me/api/send", {"userto" : to, "subject" : sub, "message" : encrypted}, undefined);
-                // });
-
-                closeModal();
-            })
+    function sendMail() {
+        $('.message-error').empty()
+        if ($("#reciept").val() === "") {
+            email_error();
+            return;
         }
 
-        function submitKey() {
-            var key = $("#key").val();
-            window.localStorage.setItem("key", key);
+        $.get("https://keybase.io/" + $("#reciept").val() + "/key.asc", function(data) {
+            var to = $("#reciept").val();
+            var sub = $("#subject").val();
+            var raw_message = $("#message").val();
 
-            // Decrypt
-            decryptMessages();
-            $("#privateKeyModal").modal('hide');
-        }
+            var params = {
+                encrypt_for: to,
+                msg: raw_message
+            };
 
-        function decryptMessages() {
-            $(".mess-long").each(function () {
-                var raw_message = this.innerHTML;
-                options = {
-                    data: new TextEncoder('utf-8').encode(JSON.parse(raw_message)),
-                    // publicKeys: openpgp.key.readArmored(key).keys, // for encryption
-                    privateKeys: openpgp.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
-                    armor: false
-                };
+            kbpgp.KeyManager.import_from_armored_pgp({armored: data}, function(err, to) {
+                if (!err) {
+                    console.log("Loaded private key with passphrase");
 
-                openpgp.decrypt(options).then(function(plaintext) {
-                    this.innerHTML = plaintext;
-                });
-                console.log(this);
-                console.log(this.innerHTML);
+                    var params = {
+                        msg: raw_message,
+                        encrypt_for: to
+                    };
+
+                    kbpgp.box(params, function(err, result_string, result_buffer) {
+                        console.log(err, result_string);
+                        post("/api/send", {
+                            "userto": $("#reciept").val(),
+                            "subject": sub,
+                            "message": result_string
+                        }, closeModal());
+                    });
+                }
             });
-        }
+        });
 
-        if (window.localStorage.getItem("key")) {
-            $("#key").val(window.localStorage.getItem("key"))
-        }
+        // closeModal();
+    }
+
+    function submitKey() {
+        var key = $("#key").val();
+        window.localStorage.setItem("key", key);
+
+        // Decrypt
+        decryptMessages();
+        $("#privateKeyModal").modal('hide');
+    }
+
+    function decryptMessages() {
+        $(".mess-long").each(function () {
+            var raw_message = this.innerHTML;
+            // options = {
+            //     data: new TextEncoder('utf-8').encode(JSON.parse(raw_message)),
+            //     // publicKeys: openpgp.key.readArmored(key).keys, // for encryption
+            //     privateKeys: openpgp.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
+            //     armor: false
+            // };
+
+            // openpgp.decrypt(options).then(function(plaintext) {
+            //     this.innerHTML = plaintext;
+            // });
+            console.log(this);
+            console.log(this.innerHTML);    
+        });
+    }
+
+    if (window.localStorage.getItem("key")) {
+        $("#key").val(window.localStorage.getItem("key"))
+    }
     </script>
 </body>
 <%include templates/angular.ejs%>
