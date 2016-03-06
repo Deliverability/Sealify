@@ -5,6 +5,11 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 var async = require('async');
 var bcrypt = require('bcrypt');
+try {
+  var keys = require('../keys.js');
+} catch(e) {
+  console.error(e);
+}
 
 var BC_LEVEL = 10;
 var db = null;
@@ -16,7 +21,7 @@ MongoClient.connect(url, function(err, database) {
   }
   else {
     db = database;
-    users = database.collection('users');
+    users = db.collection('users');
     console.log("Connected correctly to server");
   }
 });
@@ -61,6 +66,46 @@ router.get('/login', function(req, res, next) {
   });
 });
 
+router.post('/create', function(req, res, next) {
+  if(db == null) {
+    res.status(500);
+    res.send("No mongo connection, please try again later");
+    return;
+  }
+  async.waterfall([
+    function(callback) {
+      users.findOne({'user': req.body.user}, function(err, docs) {
+        if(docs)
+          err = "User exists";
+        callback(err, docs);
+      });
+    },
+    function(docs, callback) {
+      bcrypt.hash(req.body.pass, BC_LEVEL, function(err, hash) {
+        if(err) {
+          callback(err);
+          return;
+        }
+        console.log(hash);
+        callback(err, hash);
+      });
+    },
+    function(hash, callback) {
+      users.insertOne({'user': req.body.user, 'password': hash}, function(err, result) {
+        callback(err, result);
+      });
+    }
+  ],
+  function(err, result) {
+    if(err) {
+      res.status(400);
+      res.send(err);
+      return;
+    }
+    res.send(result);
+  });
+});
+
 router.get('/logout', function(req, res, next) {
     //req.session.user = null;
     req.session.destroy();
@@ -78,8 +123,18 @@ router.post('/hook', function(req, res, next) {
 });
 
 router.get('/mail', function(req, res, next) {
-  console.log(req.query);
-  var user = req.query['user'];
+  if(!req.session.user) {
+    res.status(401);
+    res.send("Not logged in");
+    return;
+  }
+  if(db == null) {
+    res.status(500);
+    res.send("No mongo connection, please try again later");
+    return;
+  }
+  var user = req.session.user;
+  console.log(user);
   if(db == null) {
     res.status(500);
     res.send("No mongo connection, please try again later");
@@ -91,25 +146,6 @@ router.get('/mail', function(req, res, next) {
   }).toArray(function(err, docs) {
     res.send(docs);
   });
-});
-
-router.get('/fakemail', function(req, res, next) {
-  res.send([{
-    id: 'lau98uq398fniuj',
-    userfrom: 'trombeard',
-    userto: 'wijagels',
-    subject: 'dankmemes',
-    message: "Buy more ovaltine Buy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltine\
-    Buy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltine"
-  },
-  {
-    id: 'kjf982jifko',
-    userfrom: 'trombeard',
-    userto: 'wijagels',
-    subject: 'dankmemes',
-    message: 'hello world'
-  }
-  ]);
 });
 
 module.exports = router;
