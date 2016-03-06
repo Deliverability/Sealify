@@ -265,10 +265,16 @@
             window.localStorage.setItem("key", key);
 
             // Decrypt
-            $(".mess-long").each(function () {
-                console.log(this);
-            });
+            decryptMessages();
             $("#privateKeyModal").modal('hide');
+        }
+
+        function decryptMessages() {
+            $(".mess-long").each(function () {
+                this.text("test")
+                console.log(this);
+                console.log(this.innerHTML);
+            });
         }
 
         if (window.localStorage.getItem("key")) {
