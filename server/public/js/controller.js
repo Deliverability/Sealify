@@ -1,7 +1,6 @@
 var app = angular.module("myApp", []);
 
-
-app.controller('controller', ['$scope', '$http', '$cookie' function($scope, $http, $cookie) { 
+app.controller('controller', ['$scope', '$http', function($scope, $http) { 
   $scope.cancel = function() {
           $scope.contact = "";
   };
@@ -13,4 +12,13 @@ app.controller('controller', ['$scope', '$http', '$cookie' function($scope, $htt
       $scope.mailbox = response;
                   
   });
+
+  console.log('test');
+  console.log("test");
+  $scope.login = function() {
+      console.log("test");
+    $http.get('/api/login?user='+$scope.login.user+'&pass='+$scope.login.pass).success(function(response) {
+      console.log(response);
+    });
+  };
 }]);
