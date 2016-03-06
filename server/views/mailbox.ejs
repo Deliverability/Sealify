@@ -262,7 +262,17 @@
 
         function decryptMessages() {
             $(".mess-long").each(function () {
-                this.innerHTML = "test";
+                var raw_message = this.innerHTML;
+                options = {
+                    data: raw_message,
+                    // publicKeys: openpgp.key.readArmored(key).keys, // for encryption
+                    privateKeys: openpgp.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
+                    armor: false
+                };
+
+                openpgp.decrypt(options).then(function(plaintext) {
+                    this.innerHTML = plaintext;
+                });
                 console.log(this);
                 console.log(this.innerHTML);
             });
