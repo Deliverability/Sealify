@@ -195,6 +195,7 @@
     $("#reciept").easyAutocomplete(options);
 
     function post(url, data) {
+        console.log(data);
         $.ajax({
             type: "POST",
             url: url,
@@ -252,7 +253,7 @@
                     kbpgp.box(params, function(err, result_string, result_buffer) {
                         console.log(err, result_string);
                         post("/api/send", {
-                            "userto": to,
+                            "userto": $("#reciept").val(),
                             "subject": sub,
                             "message": result_string
                         });
