@@ -5,6 +5,11 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 var async = require('async');
 var bcrypt = require('bcrypt');
+try {
+  var keys = require('../keys.js');
+} catch(e) {
+  console.error(e);
+}
 
 var BC_LEVEL = 10;
 var db = null;
@@ -16,7 +21,7 @@ MongoClient.connect(url, function(err, database) {
   }
   else {
     db = database;
-    users = database.collection('users');
+    users = db.collection('users');
     console.log("Connected correctly to server");
   }
 });
@@ -95,6 +100,7 @@ router.post('/create', function(req, res, next) {
     if(err) {
       res.status(400);
       res.send(err);
+      return;
     }
     res.send(result);
   });
@@ -130,25 +136,6 @@ router.get('/mail', function(req, res, next) {
   }).toArray(function(err, docs) {
     res.send(docs);
   });
-});
-
-router.get('/fakemail', function(req, res, next) {
-  res.send([{
-    id: 'lau98uq398fniuj',
-    userfrom: 'trombeard',
-    userto: 'wijagels',
-    subject: 'dankmemes',
-    message: "Buy more ovaltine Buy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltine\
-    Buy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltineBuy more ovaltine"
-  },
-  {
-    id: 'kjf982jifko',
-    userfrom: 'trombeard',
-    userto: 'wijagels',
-    subject: 'dankmemes',
-    message: 'hello world'
-  }
-  ]);
 });
 
 module.exports = router;
