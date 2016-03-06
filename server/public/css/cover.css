@@ -29,14 +29,14 @@ body {
 }
 
 .vertical-center {
-    min-height: 25%;  /* Fallback for browsers do NOT support vh unit */
-    min-height: 25vh; /* These two lines are counted as one :-)       */
+    min-height: 30%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 30vh; /* These two lines are counted as one :-)       */
     color: white;
     display: flex;
     align-items: center;
 }
 
 .vertical-center h1 {
-    font-size: 90px;
-    font-family: "Times New Roman", Times, serif;
+    font-size: 100px;
+    font-family: Cardo, 'serif';
 }
