@@ -61,7 +61,7 @@
                                     <p class="list-group-item-text mess-long">{{cur.message}}</p>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-info-btn-lg" id="btn-delete">Delete</button>
+                                    <button type="button" class="btn btn-info-btn-lg" id="btn-delete onclick=deletePost(this)">Delete</button>
                                 </div>
                             </div>
                         </a>
@@ -207,6 +207,10 @@
             });
         }
 
+        function deletePost(post) {
+            console.log(post);
+        }
+
         function closeModal() {
             $("#newMessageModal").modal('hide');
             $("#reciept").val('');
@@ -243,16 +247,22 @@
                     }
                 });
 
-                var result_string, result_buffer;
-                kbpgp.box(params, function(err, result_string, result_buffer) {
-                    console.log(err, result_string, result_buffer);
-                    console.log(encrypted)
-                    post("https://sealify.me/api/send", {
-                        "userto": to,
-                        "subject": sub,
-                        "message": result_string
-                    }, undefined);
-                });
+                post("https://sealify.me/api/send", {
+                    "userto": to,
+                    "subject": sub,
+                    "message": raw_message
+                }, undefined);
+
+                // var result_string, result_buffer;
+                // kbpgp.box(params, function(err, result_string, result_buffer) {
+                //     console.log(err, result_string, result_buffer);
+                //     console.log(encrypted)
+                //     post("https://sealify.me/api/send", {
+                //         "userto": to,
+                //         "subject": sub,
+                //         "message": result_string
+                //     }, undefined);
+                // });
 
 
 
