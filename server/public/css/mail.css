@@ -1,3 +1,11 @@
+.list-group-item {
+    overflow: hidden;
+}
+
+.mess-long {
+    display: none;
+}
+
 #btn-compose {
     margin-left: 40px;
 }
