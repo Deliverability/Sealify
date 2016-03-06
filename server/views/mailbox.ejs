@@ -38,7 +38,6 @@
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
         <div class="row">
           <div class="col-md-12">
                         <button type="button" class="btn btn-info btn-lg" id="btn-compose" data-toggle="modal" data-target="#newMessageModal">Compose</button>
@@ -72,33 +71,8 @@
                                 </div>
                             </div>
                         </a>
-=======
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <button type="button" class="btn btn-info btn-lg" id="btn-compose" data-toggle="modal" data-target="#newMessageModal">Compose</button>
-        <button type="button" class="btn btn-info btn-lg" id="btn-private" data-toggle="modal" data-target="#privateKeyModal">Private Key</button>
-        <br><br>
-    </div>
-</div>
-<div class="row">
- <div class="col-md-8 col-md-offset-2">
-    <div class="list-group">
-        <div ng-repeat="cur in mailbox">
-            <a class="list-group-item message-div" onclick="clickMessage(this)">
-                <div class="row">
-                    <div class="col-md-3">
-                        <h5 class="list-group-item-heading">{{cur.userfrom}}</h5>
-                    </div>
-                    <div class="col-md-7">
-                        <h4 class="list-group-item-heading">{{cur.subject}}</h4>
-                        <p class="list-group-item-text mess-short">{{cur.message.substring(0, 60)}}</p>
-                        <p class="list-group-item-text mess-long">{{cur.message}}</p>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-info-btn-lg" ng-attr-id="{{cur._id}}" onclick="deletePost(this)">Delete</button>
->>>>>>> 7dd5b017bdefa527440647faae85d3fc259adcda
-                    </div>
+                  </div>
                     </div>
                 </div>
             </a>
