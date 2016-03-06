@@ -148,4 +148,21 @@ router.get('/mail', function(req, res, next) {
   });
 });
 
+router.post('/send', function(req, res, next) {
+  if(db == null) {
+    res.status(500);
+    res.send("No mongo connection, please try again later");
+    return;
+  }
+  mail = db.collection('email');
+  mail.insertOne(req.body, function(err, result) {
+    if(err) {
+      res.status(500);
+      res.send(err);
+      return;
+    }
+    res.send(result);
+  });
+});
+
 module.exports = router;
