@@ -168,19 +168,35 @@ router.post('/send', function(req, res, next) {
 });
 
 router.get('/me', function(req, res, next) {
-    if(db == null) {
-        res.status(500);
-        res.send("No mongo connection, please try again later");
-        return;
+  if(db == null) {
+    res.status(500);
+    res.send("No mongo connection, please try again later");
+    return;
+  }
+  if(!req.session.user) {
+    res.status(401);
+    res.send("Not logged in");
+    return;
+  }
+  users.findOne({'user': req.session.user}, function(err, docs) {
+    res.send(docs);
+  });
+});
+
+router.post('/delete', function(req, res, next) {
+  if(db == null) {
+    res.status(500);
+    res.send("No mongo connection, please try again later");
+    return;
+  }
+  mail = db.collection('email');
+  mail.removeOne({'_id': req.body._id}, function(err) {
+    if(err, results) {
+      res.status(500);
+      res.send(err);
     }
-    if(!req.session.user) {
-        res.status(401);
-        res.send("Not logged in");
-        return;
-    }
-    users.findOne({'user': req.session.user}, function(err, docs) {
-        res.send(docs);
-    });
+    res.send(results);
+  });
 });
 
 module.exports = router;
