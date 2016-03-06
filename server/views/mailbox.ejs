@@ -37,7 +37,7 @@
             <div class="col-md-8">
                 <div class="list-group">
                     <div ng-repeat="cur in mailbox">
-                        <a class="list-group-item message-div" onclick="clickMessage">
+                        <a class="list-group-item message-div" onclick="clickMessage(this)">
                             <div class="row">
                                 <div class="col-md-3">
                                     <h5 class="list-group-item-heading">{{cur.userfrom}}</h5>
@@ -110,25 +110,11 @@
         </div>
     </div>
     <script>
-        function clickMessage() {
-            console.log("cliked message")
+        function clickMessage(obj) {
+            $(obj.children[0].children[1].children[1]).toggle()
+            $(obj.children[0].children[1].children[2]).toggle()
         }
-        $('.message-div').click(function() {console.log("clicked"); })
-    $('.message-div').on('click', function() {
-        console.log("Clicked")
-        $(this).children('mess-long').toggle()
-        $(this).children('mess-short').toggle()
-    });
     </script>
-</body>
-</html>
-
-        
-        
-        <!-- Bootstrap core JavaScript
-    ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </body>
 <%include templates/angular.ejs%>
 
