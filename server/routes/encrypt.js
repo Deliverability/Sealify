@@ -1,6 +1,3 @@
-var fs = require('fs');
-var kbpgp = require('kbpgp');
-
 alice_pgp_key = fs.readFileSync('./priv.asc', 'utf-8');
 alice_passphrase = "xdlol";
 
