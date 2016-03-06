@@ -204,10 +204,10 @@
             });
         }
 
-        function deletePost(post) {
-            console.log(post);
+        function deletePost(p) {
+            console.log(p);
             post("https://sealify.me/api/delete", {
-                "_id": post['id']
+                "_id": p['id']
             });
         }
 
