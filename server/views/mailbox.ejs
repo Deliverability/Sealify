@@ -46,8 +46,15 @@
                         <br><br>
           </div>
           </div>
-              <div class="row">
-               <div class="col-md-8 col-md-offset-2">
+          <div ng-if="mailbox.length == 0">
+            <div class="container" style="text-align:center;">
+              <img style="height:150px;" src="/images/light_grey_wire_logo.png">
+              <h1 style="color:grey;">You don't have any mail.</h1>
+            </div>
+          </div>
+          <div ng-if="mailbox.length != 0">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
                 <div class="list-group">
                     <div ng-repeat="cur in mailbox">
                         <a class="list-group-item message-div" onclick="clickMessage(this)">
@@ -65,6 +72,7 @@
                                 </div>
                             </div>
                         </a>
+                    </div>
                     </div>
                 </div>
                </div>
