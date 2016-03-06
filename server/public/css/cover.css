@@ -1,6 +1,6 @@
 html,
 body {
-    background: url(/images/vineyard.jpg) no-repeat center center fixed;
+    background: url(/images/envelope.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -29,8 +29,8 @@ body {
 }
 
 .vertical-center {
-    min-height: 45%;  /* Fallback for browsers do NOT support vh unit */
-    min-height: 45vh; /* These two lines are counted as one :-)       */
+    min-height: 25%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 25vh; /* These two lines are counted as one :-)       */
     color: white;
     display: flex;
     align-items: center;

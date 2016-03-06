@@ -1,6 +1,6 @@
 var app = angular.module("myApp", []);
 
-app.controller('controller', ['$scope', '$http', function($scope, $http) { 
+app.controller('controller', ['$scope', '$http', '$window', function($scope, $http, $window) { 
   $scope.cancel = function() {
           $scope.contact = "";
   };
@@ -10,15 +10,26 @@ app.controller('controller', ['$scope', '$http', function($scope, $http) {
       console.log("Mail Received");
       console.log(response);
       $scope.mailbox = response;
+      $scope.username = response.user;
                   
   });
 
-  console.log('test');
-  console.log("test");
   $scope.login = function() {
-      console.log("test");
-    $http.get('/api/login?user='+$scope.login.user+'&pass='+$scope.login.pass).success(function(response) {
-      console.log(response);
+    $http.get('/api/login?user='+$scope.login.username+'&pass='+$scope.login.password).success(function(response) {
+        $window.location.href ='/mailbox';
     });
+  };
+
+  $scope.signUp = function() {
+    if($scope.newInfo.pass === $scope.newInfo.verify) {
+      $http.post('/api/create', $scope.newInfo).success(function(response) {
+        $scope.newInfo = "";
+        $scope.popup = "Account created!";
+      });
+    }
+    else {
+        $scope.newInfo = "";
+        $scope.popup = "Password did not match.";
+    }
   };
 }]);
