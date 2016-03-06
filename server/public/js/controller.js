@@ -7,7 +7,7 @@ app.controller('controller', ['$scope', '$http', function($scope, $http) {
   };
 
     
-  $http.get('/api/fakemail').success(function(response) {
+  $http.get('/api/mail?user=trombeard').success(function(response) {
       console.log("Mail Received");
       console.log(response);
       $scope.mailbox = response;
