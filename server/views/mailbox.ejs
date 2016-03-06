@@ -206,7 +206,7 @@
 
         function deletePost(p) {
             console.log(p);
-            post("https://sealify.me/api/delete", {
+            post("sealify.me/api/delete", {
                 "_id": p['id']
             });
         }
@@ -247,7 +247,7 @@
                     }
                 });
 
-                post("https://sealify.me/api/send", {
+                post("/api/send", {
                     "userto": to,
                     "subject": sub,
                     "message": raw_message
