@@ -190,8 +190,8 @@ router.post('/delete', function(req, res, next) {
     return;
   }
   mail = db.collection('email');
-  mail.removeOne({'_id': req.body._id}, function(err, results) {
-    if(err, results) {
+  mail.removeOne({'_id': ObjectID(req.body._id)}, function(err, results) {
+    if(err) {
       res.status(500);
       res.send(err);
       return;
