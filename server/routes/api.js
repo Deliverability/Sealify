@@ -61,6 +61,45 @@ router.get('/login', function(req, res, next) {
   });
 });
 
+router.post('/create', function(req, res, next) {
+  if(db == null) {
+    res.status(500);
+    res.send("No mongo connection, please try again later");
+    return;
+  }
+  async.waterfall([
+    function(callback) {
+      users.findOne({'user': req.body.user}, function(err, docs) {
+        if(docs)
+          err = "User exists";
+        callback(err, docs);
+      });
+    },
+    function(docs, callback) {
+      bcrypt.hash(req.body.pass, BC_LEVEL, function(err, hash) {
+        if(err) {
+          callback(err);
+          return;
+        }
+        console.log(hash);
+        callback(err, hash);
+      });
+    },
+    function(hash, callback) {
+      users.insertOne({'user': req.body.user, 'password': hash}, function(err, result) {
+        callback(err, result);
+      });
+    }
+  ],
+  function(err, result) {
+    if(err) {
+      res.status(400);
+      res.send(err);
+    }
+    res.send(result);
+  });
+});
+
 router.get('/logout', function(req, res, next) {
     //req.session.user = null;
     req.session.destroy();
