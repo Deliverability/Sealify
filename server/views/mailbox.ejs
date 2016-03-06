@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
 
 <head>
     <title>Mailbox | Sealify</title>
     <%include templates/bootstrap.ejs%>
 </head>
 
-<body>
+<body ng-controller="controller">
     <div class="container-fluid">
         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
@@ -61,5 +61,5 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </body>
-
+<%include templates/angular.ejs%>
 </html>
