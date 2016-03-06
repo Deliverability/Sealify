@@ -3,8 +3,11 @@ var router = express.Router();
 
 /* GET mailbox. */
 router.get('/', function(req, res, next) {
-  res.render('mailbox', {
-  });
+    if(req.session.user == null) {
+        res.redirect('/');
+    }
+    res.render('mailbox', {
+    });
 });
 
 module.exports = router;

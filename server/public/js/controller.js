@@ -4,14 +4,16 @@ app.controller('controller', ['$scope', '$http', '$window', function($scope, $ht
   $scope.cancel = function() {
           $scope.contact = "";
   };
-
-    
+  
   $http.get('/api/mail').success(function(response) {
       console.log("Mail Received");
       console.log(response);
       $scope.mailbox = response;
-      $scope.username = response.user;
                   
+  });
+    
+  $http.get('/api/me').success(function(response) {
+      $scope.username = response.user;
   });
 
   $scope.login = function() {
