@@ -11,54 +11,54 @@ var db = null;
 var users = null;
 var url = 'mongodb://localhost:27017/sealify';
 MongoClient.connect(url, function(err, database) {
-    if(err != null) {
-        console.error("Alert: no db connection :(");
-    }
-    else {
-        db = database;
-        users = database.collection('users');
-        console.log("Connected correctly to server");
-    }
+  if(err != null) {
+    console.error("Alert: no db connection :(");
+  }
+  else {
+    db = database;
+    users = database.collection('users');
+    console.log("Connected correctly to server");
+  }
 });
 
 router.get('/login', function(req, res, next) {
-    if(db == null) {
-        res.status(500);
-        res.send("No mongo connection, please try again later");
-        return;
-    }
-    async.waterfall([
-        function(callback) {
-            users.findOne({'user': req.query.user}, function(err, docs) {
-                if(!docs) {
-                    err = "Invalid user";
-                    callback(err, docs);
-                    return;
-                }
-                callback(err, docs);
-            });
-        },
-        function(docs, callback) {
-            bcrypt.compare(req.query.pass, docs.password, function(err, res) {
-                if(res) {
-                    req.session.user = docs.user;
-                }
-                else {
-                    err = "Invalid password";
-                }
-                callback(err, docs);
-            });
+  if(db == null) {
+    res.status(500);
+    res.send("No mongo connection, please try again later");
+    return;
+  }
+  async.waterfall([
+    function(callback) {
+      users.findOne({'user': req.query.user}, function(err, docs) {
+        if(!docs) {
+          err = "Invalid user";
+          callback(err, docs);
+          return;
         }
-    ],
-    function(err, result) {
-        if(err) {
-            res.status(401);
-            res.send(err);
+        callback(err, docs);
+      });
+    },
+    function(docs, callback) {
+      bcrypt.compare(req.query.pass, docs.password, function(err, res) {
+        if(res) {
+          req.session.user = docs.user;
         }
         else {
-            res.send(result);
+          err = "Invalid password";
         }
-    });
+        callback(err, docs);
+      });
+    }
+  ],
+  function(err, result) {
+    if(err) {
+      res.status(401);
+      res.send(err);
+    }
+    else {
+      res.send(result);
+    }
+  });
 });
 
 router.get('/logout', function(req, res, next) {
@@ -80,7 +80,17 @@ router.post('/hook', function(req, res, next) {
 router.get('/mail', function(req, res, next) {
   console.log(req.query);
   var user = req.query['user'];
-  res.send("yay");
+  if(db == null) {
+    res.status(500);
+    res.send("No mongo connection, please try again later");
+    return;
+  }
+  mail = db.collection('email');
+  mail.find({
+    userto: user
+  }).toArray(function(err, docs) {
+    res.send(docs);
+  });
 });
 
 router.get('/fakemail', function(req, res, next) {
