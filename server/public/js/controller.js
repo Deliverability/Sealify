@@ -8,7 +8,10 @@ app.controller('controller', ['$scope', '$http', function($scope, $http) {
 
     
   $http.get('/api/fakemail').success(function(response) {
-      console.log(response[0]);
+      console.log("Mail Received");
+      console.log(response);
+      $scope.mailbox = response;
+                  
   });
     /*
   $scope.submit = function() {
