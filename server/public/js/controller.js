@@ -10,6 +10,7 @@ app.controller('controller', ['$scope', '$http', '$window', function($scope, $ht
       console.log("Mail Received");
       console.log(response);
       $scope.mailbox = response;
+      $scope.username = response.user;
                   
   });
 
