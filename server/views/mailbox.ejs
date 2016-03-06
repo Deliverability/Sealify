@@ -232,7 +232,7 @@
 
                 options = {
                     // data: raw_message,
-                    data: new TextEncoder(encoding).encode(raw_message),
+                    data: new TextEncoder('utf-8').encode(raw_message),
                     publicKeys: openpgp.key.readArmored(key).keys, // for encryption
                     // privateKeys: opengpg.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
                     armor: false
@@ -247,8 +247,8 @@
                         "subject": sub,
                         "message": encrypted
                     }, null);
-                    var encrypted = ciphertext.message.packets.write();
-                    post("https://sealify.me/api/send", {"userto" : to, "subject" : sub, "message" : encrypted}, undefined);
+                    // var encrypted = ciphertext.message.packets.write();
+                    // post("https://sealify.me/api/send", {"userto" : to, "subject" : sub, "message" : encrypted}, undefined);
                 });
 
                 closeModal();
@@ -268,7 +268,7 @@
             $(".mess-long").each(function () {
                 var raw_message = this.innerHTML;
                 options = {
-                    data: JSON.parse(raw_message),
+                    data: new TextEncoder('utf-8').encode(JSON.parse(raw_message)),
                     // publicKeys: openpgp.key.readArmored(key).keys, // for encryption
                     privateKeys: openpgp.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
                     armor: false
