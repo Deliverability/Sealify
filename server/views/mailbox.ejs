@@ -206,10 +206,8 @@
 
         function deletePost(post) {
             console.log(post);
-            console.log($(post).getAttr('id'))
-
             post("https://sealify.me/api/delete", {
-                "_id": $(post).getAttr('id')
+                "_id": post['id']
             });
         }
 
