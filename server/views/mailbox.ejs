@@ -61,7 +61,7 @@
                                     <p class="list-group-item-text mess-long">{{cur.message}}</p>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="button" class="btn btn-info-btn-lg" id="btn-delete">Delete</button>
+                                    <button type="button" class="btn btn-info-btn-lg" ng-attr-id="{{cur._id}}" onclick="deletePost(this)">Delete</button>
                                 </div>
                             </div>
                         </a>
@@ -194,16 +194,20 @@
 
         $("#reciept").easyAutocomplete(options);
 
-        function post(url, data, onSuccess) {
+        function post(url, data) {
             $.ajax({
                 type: "POST",
                 url: url,
                 data: JSON.stringify(data),
                 dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function(response, textStatus, jqXHR) {
-                    onSuccess(response, textStatus, jqXHR);
-                }
+                contentType: "application/json; charset=utf-8"
+            });
+        }
+
+        function deletePost(p) {
+            console.log(p);
+            post("https://sealify.me/api/delete", {
+                "_id": p['id']
             });
         }
 
@@ -243,16 +247,22 @@
                     }
                 });
 
-                var result_string, result_buffer;
-                kbpgp.box(params, function(err, result_string, result_buffer) {
-                    console.log(err, result_string, result_buffer);
-                    console.log(encrypted)
-                    post("https://sealify.me/api/send", {
-                        "userto": to,
-                        "subject": sub,
-                        "message": result_string
-                    }, undefined);
+                post("https://sealify.me/api/send", {
+                    "userto": to,
+                    "subject": sub,
+                    "message": raw_message
                 });
+
+                // var result_string, result_buffer;
+                // kbpgp.box(params, function(err, result_string, result_buffer) {
+                //     console.log(err, result_string, result_buffer);
+                //     console.log(encrypted)
+                //     post("https://sealify.me/api/send", {
+                //         "userto": to,
+                //         "subject": sub,
+                //         "message": result_string
+                //     });
+                // });
 
 
 
