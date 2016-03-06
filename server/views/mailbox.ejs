@@ -1,17 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <title>Mailbox | Sealify</title>
     <%include templates/bootstrap.ejs%>
-  </head>
+</head>
 
-  <body>
-    
-    
-    
+<body>
+    <div class="container-fluid">
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="row" id="reciept">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="reciept">To:</label>
+                            <input type="text" class="form-control" id="reciept">
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="message">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="message">Message:</label>
+                            <input type="message" class="form-control" id="message">
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="send-button-container">
+                    <div class="col-md-2 col-md-offset-10">
+                        <button type="button" class="btn btn-primary">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  </body>
+</body>
+
 </html>
