@@ -132,13 +132,13 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="message">Key:</label>
-                                                    <textarea type="text" class="form-control" rows="8" id="message"></textarea>
+                                                    <textarea type="text" class="form-control" rows="8" id="key"></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row" id="send-button-container">
                                             <div class="col-md-3 col-md-offset-9">
-                                                <button type="button" class="btn btn-primary" id="btn-send" data-dismiss="modal">Enter</button>
+                                                <button type="button" class="btn btn-primary" id="btn-send" onclick="submitKey()">Enter</button>
                                             </div>
                                         </div>
                                     </div>
@@ -221,9 +221,10 @@
                 var pub_key = openpgp.key.readArmored(key).keys;
 
                 options = {
-                    data: raw_message,           // input as Uint8Array
-                    publicKeys: openpgp.key.readArmored(key).keys,   // for encryption
-                    armor: false                                        // don't ASCII armor
+                    data: raw_message,
+                    publicKeys: openpgp.key.readArmored(key).keys, // for encryption
+                    // privateKeys: opengpg.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
+                    armor: false
                 };
 
                 openpgp.encrypt(options).then(function(ciphertext) {
@@ -233,6 +234,17 @@
 
                 closeModal();
             })
+        }
+
+        function submitKey() {
+            var key = $("#key").val();
+            window.localStorage.setItem("key", key);
+
+            // Decrypt
+            $(".mess-long").each(function () {
+                console.log(this);
+            });
+            $("#privateKeyModal").modal('hide');
         }
     </script>
 </body>
