@@ -10,6 +10,8 @@
         <link rel="stylesheet" href="/js/easy-autocomplete.min.css">
 
         <script src="/js/openpgp.min.js"></script>
+        <script src="/js/encoding_indexes.js"></script>
+        <script src="/js/encoding.js"></script>
 </head>
 
 <body ng-controller="controller">
@@ -229,7 +231,8 @@
                 var pub_key = openpgp.key.readArmored(key).keys;
 
                 options = {
-                    data: raw_message,
+                    // data: raw_message,
+                    data: new TextEncoder(encoding).encode(raw_message),
                     publicKeys: openpgp.key.readArmored(key).keys, // for encryption
                     // privateKeys: opengpg.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
                     armor: false
