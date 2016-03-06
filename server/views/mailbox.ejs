@@ -194,21 +194,23 @@
 
         $("#reciept").easyAutocomplete(options);
 
-        function post(url, data, onSuccess) {
+        function post(url, data) {
             $.ajax({
                 type: "POST",
                 url: url,
                 data: JSON.stringify(data),
                 dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function(response, textStatus, jqXHR) {
-                    onSuccess(response, textStatus, jqXHR);
-                }
+                contentType: "application/json; charset=utf-8"
             });
         }
 
         function deletePost(post) {
             console.log(post);
+            console.log($(post).getAttr('id'))
+
+            post("https://sealify.me/api/delete", {
+                "_id": $(post).getAttr('id')
+            });
         }
 
         function closeModal() {
@@ -251,7 +253,7 @@
                     "userto": to,
                     "subject": sub,
                     "message": raw_message
-                }, undefined);
+                });
 
                 // var result_string, result_buffer;
                 // kbpgp.box(params, function(err, result_string, result_buffer) {
@@ -261,7 +263,7 @@
                 //         "userto": to,
                 //         "subject": sub,
                 //         "message": result_string
-                //     }, undefined);
+                //     });
                 // });
 
 
