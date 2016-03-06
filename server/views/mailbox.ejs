@@ -99,6 +99,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="message-error"></div>
                                         <div class="row" id="send-button-container">
                                             <div class="col-md-3 col-md-offset-9">
                                                 <button type="button" class="btn btn-primary" id="btn-close" onclick="closeModal()">Close</button>
@@ -200,8 +201,14 @@
             $("#message").val('');
         }
 
+        function email_error() {
+            $("<div class='alert alert-danger' role='alert'><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><span class='sr-only'>Error:</span> Invalid recipient.</div>").appendTo(".message-error");
+        }
+
         function sendMail() {
+            $('.message-error').empty()
             if ($("#reciept").val() === "") {
+                email_error();
                 return;
             }
 
