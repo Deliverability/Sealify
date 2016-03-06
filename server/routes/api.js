@@ -123,8 +123,18 @@ router.post('/hook', function(req, res, next) {
 });
 
 router.get('/mail', function(req, res, next) {
-  console.log(req.query);
-  var user = req.query['user'];
+  if(!req.session.user) {
+    res.status(401);
+    res.send("Not logged in");
+    return;
+  }
+  if(db == null) {
+    res.status(500);
+    res.send("No mongo connection, please try again later");
+    return;
+  }
+  var user = req.session.user;
+  console.log(user);
   if(db == null) {
     res.status(500);
     res.send("No mongo connection, please try again later");
