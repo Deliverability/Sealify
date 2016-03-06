@@ -209,6 +209,7 @@
         post("/api/delete", {
             "_id": p['id']
         });
+        location.reload();
     }
 
     function closeModal() {
@@ -339,7 +340,7 @@ function submitKey() {
                 //     this.innerHTML = plaintext;
                 // });
                 console.log(this);
-                console.log(this.innerHTML);
+                console.log(this.innerHTML);    
             });
         }
 
