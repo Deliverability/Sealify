@@ -8,7 +8,7 @@
 </head>
 
 <body ng-controller="controller">
-  <div class="container-fluid">
+    <div class="container-fluid">
         <div class="row" id="header">
             <div class="col-md-12">
                 <div class="navbar navbar-default">
@@ -36,66 +36,68 @@
             </div>
             <div class="col-md-8">
                 <div class="list-group">
-                   <div ng-repeat="cur in mailbox">
-                      <a href="#" class="list-group-item">
-                        <div class="row">
-                          <div class="col-md-3">
-                          <h5 class="list-group-item-heading">{{cur.userfrom}}</h5>
-                          </div>
-                          <div class="col-md-7">
-                            <h4 class="list-group-item-heading">{{cur.subject}}</h4>
-                            <p class="list-group-item-text">{{cur.message}}</p>
-                          </div>
-                          <div class="col-md-2">
-                          </div>
-                        </div>
-                     </a>
+                    <div ng-repeat="cur in mailbox">
+                        <a class="list-group-item message-div" onclick="clickMessage">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h5 class="list-group-item-heading">{{cur.userfrom}}</h5>
+                                </div>
+                                <div class="col-md-7">
+                                    <h4 class="list-group-item-heading">{{cur.subject}}</h4>
+                                    <p class="list-group-item-text mess-short">{{cur.message.substring(0, 60)}}</p>
+                                    <p class="list-group-item-text mess-long">{{cur.message}}</p>
+                                </div>
+                                <div class="col-md-2">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Modal -->
-        <div id="newMessageModal" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
+            <!-- Modal -->
+            <div id="newMessageModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">New Message</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="row" id="reciept">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="reciept">To:</label>
-                                                <input type="text" class="form-control" id="reciept">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">New Message</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="row" id="reciept">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="reciept">To:</label>
+                                                    <input type="text" class="form-control" id="reciept">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row" id="subject">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="subject">Subject:</label>
-                                                <input type="text" class="form-control" id="subject">
+                                        <div class="row" id="subject">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="subject">Subject:</label>
+                                                    <input type="text" class="form-control" id="subject">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row" id="message">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="message">Message:</label>
-                                                <textarea type="text" class="form-control" rows="8" id="message"></textarea>
+                                        <div class="row" id="message">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="message">Message:</label>
+                                                    <textarea type="text" class="form-control" rows="8" id="message"></textarea>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row" id="send-button-container">
-                                        <div class="col-md-3 col-md-offset-9">
-                                            <button type="button" class="btn btn-primary" id="btn-close" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary" id="btn-send" data-dismiss="modal">Send</button>
+                                        <div class="row" id="send-button-container">
+                                            <div class="col-md-3 col-md-offset-9">
+                                                <button type="button" class="btn btn-primary" id="btn-close" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="btn-send" data-dismiss="modal">Send</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -103,15 +105,30 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
+    <script>
+        function clickMessage() {
+            console.log("cliked message")
+        }
+        $('.message-div').click(function() {console.log("clicked"); })
+    $('.message-div').on('click', function() {
+        console.log("Clicked")
+        $(this).children('mess-long').toggle()
+        $(this).children('mess-short').toggle()
+    });
+    </script>
+</body>
+</html>
 
-    <!-- Bootstrap core JavaScript
+        
+        
+        <!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </body>
 <%include templates/angular.ejs%>
 
