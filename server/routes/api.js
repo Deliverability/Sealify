@@ -194,6 +194,7 @@ router.post('/delete', function(req, res, next) {
     if(err, results) {
       res.status(500);
       res.send(err);
+      return;
     }
     res.send(results);
   });
