@@ -270,6 +270,10 @@
             });
             $("#privateKeyModal").modal('hide');
         }
+
+        if (window.localStorage.getItem("key")) {
+            $("#key").val(window.localStorage.getItem("key"))
+        }
     </script>
 </body>
 <%include templates/angular.ejs%>
