@@ -99,9 +99,10 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="message-error"></div>
                                         <div class="row" id="send-button-container">
                                             <div class="col-md-3 col-md-offset-9">
-                                                <button type="button" class="btn btn-primary" id="btn-close" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="btn-close" onclick="closeModal()">Close</button>
                                                 <button type="button" class="btn btn-primary" id="btn-send" onclick="sendMail()">Send</button>
                                             </div>
                                         </div>
@@ -193,8 +194,21 @@
             });    
         }
 
+        function closeModal() {
+            $("#newMessageModal").modal('hide');
+            $("#reciept").val('');
+            $("#subject").val('');
+            $("#message").val('');
+        }
+
+        function email_error() {
+            $("<div class='alert alert-danger' role='alert'><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span><span class='sr-only'>Error:</span> Invalid recipient.</div>").appendTo(".message-error");
+        }
+
         function sendMail() {
+            $('.message-error').empty()
             if ($("#reciept").val() === "") {
+                email_error();
                 return;
             }
 
@@ -212,14 +226,12 @@
                     armor: false                                        // don't ASCII armor
                 };
 
-                var encrypted;
                 openpgp.encrypt(options).then(function(ciphertext) {
-                    encrypted = ciphertext.message.packets.write();
-                    console.log(encrypted)
-                    post("https://sealify.me/api/send", {"userfrom" : "trombeard", "userto" : to, "subject" : sub, "message" : encrypted}, null);
+                    var encrypted = ciphertext.message.packets.write();
+                    post("https://sealify.me/api/send", {"userto" : to, "subject" : sub, "message" : encrypted}, undefined);
                 });
 
-                $("#newMessageModal").modal('hide');
+                closeModal();
             })
         }
     </script>
