@@ -240,20 +240,6 @@
                 msg: raw_message
             };
 
-            // kbpgp.KeyManager.import_from_armored_pgp({armored: data}, function(err, alice) {
-            //     if (!err) {
-            //         console.log("alice is loaded");
-            //     }
-            // });
-
-            // post("/api/send", {
-            //     "userto": to,
-            //     "subject": sub,
-            //     "message": raw_message
-            // });
-
-            // ------
-
             kbpgp.KeyManager.import_from_armored_pgp({armored: data}, function(err, to) {
                 if (!err) {
                     console.log("Loaded private key with passphrase");
@@ -270,83 +256,44 @@
                             "subject": sub,
                             "message": result_string
                         });
-                        // nex(to, result_string);
                     });
                 }
             });
         });
 
-                // var result_string, result_buffer;
-                // kbpgp.box(params, function(err, result_string, result_buffer) {
-                //     console.log(err, result_string, result_buffer);
-                //     console.log(encrypted)
-                //     post("https://sealify.me/api/send", {
-                //         "userto": to,
-                //         "subject": sub,
-                //         "message": result_string
-                //     });
-                // });
+        closeModal();
+    })
 
+    function submitKey() {
+        var key = $("#key").val();
+        window.localStorage.setItem("key", key);
 
+        // Decrypt
+        decryptMessages();
+        $("#privateKeyModal").modal('hide');
+    }
 
-                // var key = data;
-                // var pub_key = openpgp.key.readArmored(key).keys;
+    function decryptMessages() {
+        $(".mess-long").each(function () {
+            var raw_message = this.innerHTML;
+            // options = {
+            //     data: new TextEncoder('utf-8').encode(JSON.parse(raw_message)),
+            //     // publicKeys: openpgp.key.readArmored(key).keys, // for encryption
+            //     privateKeys: openpgp.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
+            //     armor: false
+            // };
 
-                // options = {
-                //     // data: raw_message,
-                //     data: new TextEncoder('utf-8').encode(raw_message),
-                //     publicKeys: openpgp.key.readArmored(key).keys, // for encryption
-                //     // privateKeys: opengpg.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
-                //     armor: false
-                // };
+            // openpgp.decrypt(options).then(function(plaintext) {
+            //     this.innerHTML = plaintext;
+            // });
+            console.log(this);
+            console.log(this.innerHTML);    
+        });
+    }
 
-                // openpgp.encrypt(options).then(function(ciphertext) {
-                //     encrypted = ciphertext.message.packets.write();
-                //     console.log(encrypted)
-                //     post("https://sealify.me/api/send", {
-                //         "userfrom": "trombeard",
-                //         "userto": to,
-                //         "subject": sub,
-                //         "message": encrypted
-                //     }, null);
-                //     // var encrypted = ciphertext.message.packets.write();
-                //     // post("https://sealify.me/api/send", {"userto" : to, "subject" : sub, "message" : encrypted}, undefined);
-                // });
-
-closeModal();
-})
-}
-
-function submitKey() {
-    var key = $("#key").val();
-    window.localStorage.setItem("key", key);
-
-            // Decrypt
-            decryptMessages();
-            $("#privateKeyModal").modal('hide');
-        }
-
-        function decryptMessages() {
-            $(".mess-long").each(function () {
-                var raw_message = this.innerHTML;
-                // options = {
-                //     data: new TextEncoder('utf-8').encode(JSON.parse(raw_message)),
-                //     // publicKeys: openpgp.key.readArmored(key).keys, // for encryption
-                //     privateKeys: openpgp.key.readArmored(window.localStorage.getItem("key")).keys, // for signing
-                //     armor: false
-                // };
-
-                // openpgp.decrypt(options).then(function(plaintext) {
-                //     this.innerHTML = plaintext;
-                // });
-                console.log(this);
-                console.log(this.innerHTML);    
-            });
-        }
-
-        if (window.localStorage.getItem("key")) {
-            $("#key").val(window.localStorage.getItem("key"))
-        }
+    if (window.localStorage.getItem("key")) {
+        $("#key").val(window.localStorage.getItem("key"))
+    }
     </script>
 </body>
 <%include templates/angular.ejs%>
