@@ -8,9 +8,6 @@
 </head>
 
 <body ng-controller="controller">
-  <div ng-repeat="cur in mailbox">
-    {{cur.userfrom}}
-  </div>
   <div class="container-fluid">
         <div class="row" id="header">
             <div class="col-md-12">
@@ -39,18 +36,20 @@
             </div>
             <div class="col-md-8">
                 <div class="list-group">
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Hey Eileen</h4>
-                        <p class="list-group-item-text">just checking in it's been a while</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Come on Eileen</h4>
-                        <p class="list-group-item-text">I like this song</p>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">Graduating to Apple</h4>
-                        <p class="list-group-item-text">Eileen get rekt</p>
-                    </a>
+                   <div ng-repeat="cur in mailbox">
+                      <a href="#" class="list-group-item">
+                        <div class="row">
+                          <div class="col-md-3">
+                          <h5 class="list-group-item-heading">{{cur.userfrom}}</h5>
+                          </div>
+                          <div class="col-md-7">
+                            <h4 class="list-group-item-heading">{{cur.subject}}</h4>
+                            <p class="list-group-item-text">{{cur.message}}</p>
+                          </div>
+                          <div class="col-md-2">
+                          </div>
+                        </div>
+                     </a>
                 </div>
             </div>
         </div>
