@@ -181,7 +181,7 @@
                 openpgp.encrypt(options).then(function(ciphertext) {
                     encrypted = ciphertext.message.packets.write();
                     console.log(encrypted)
-                    post("http://sealify.me/api/send", {"userfrom" : "trombeard", "userto" : to, "subject" : sub, "message" : encrypted}, null);
+                    post("https://sealify.me/api/send", {"userfrom" : "trombeard", "userto" : to, "subject" : sub, "message" : encrypted}, null);
                 });
 
                 $("#newMessageModal").modal('hide');
