@@ -4,12 +4,12 @@
 <head>
     <title>Mailbox | Sealify</title>
     <%include templates/bootstrap.ejs%>
-    <link rel="stylesheet" type="text/css" href="css/mail.css">
+        <link rel="stylesheet" type="text/css" href="css/mail.css">
 
-    <script src="/js/jquery.easy-autocomplete.min.js"></script>
-    <link rel="stylesheet" href="/js/easy-autocomplete.min.css">
+        <script src="/js/jquery.easy-autocomplete.min.js"></script>
+        <link rel="stylesheet" href="/js/easy-autocomplete.min.css">
 
-    <script src="/js/openpgp.min.js"></script> 
+        <script src="/js/openpgp.min.js"></script>
 </head>
 
 <body ng-controller="controller">
@@ -24,7 +24,7 @@
                         <div class="collapse navbar-collapse">
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="dropdown">
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Signed in as {{username}}<span class="caret"></span></a>
+                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Signed in as {{username}}@sealify.me<span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="/api/logout">Sign out</a></li>
                                     </ul>
@@ -37,8 +37,22 @@
         </div>
         <div class="row" id="content">
             <div class="col-md-2">
-                <button type="button" class="btn btn-info btn-lg" id="btn-compose" data-toggle="modal" data-target="#newMessageModal">Compose</button>
-                <button type="button" class="btn btn-info-btn-lg" id="btn-private" data-toggle="modal" data-target="#privateKeyModal">Enter Private Key</button>
+                <!--
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-info btn-lg" id="btn-compose" data-toggle="modal" data-target="#newMessageModal">Compose</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-info btn-lg" id="btn-private" data-toggle="modal" data-target="#privateKeyModal">Private Key</button>
+                    </div>
+                </div>
+                -->
+                <ul>
+                    <li><button type="button" class="btn btn-info btn-lg" id="btn-compose" data-toggle="modal" data-target="#newMessageModal">Compose</button></li>
+                    <li><button type="button" class="btn btn-info btn-lg" id="btn-private" data-toggle="modal" data-target="#privateKeyModal">Private Key</button></li>
+                </ul>
             </div>
             <div class="col-md-8">
                 <div class="list-group">
@@ -79,7 +93,11 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label for="reciept">To:</label>
-                                                    <input type="text" class="form-control" id="reciept">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" id="reciept">
+                                                        <div class="input-group-addon">@sealify.me</div>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -114,7 +132,7 @@
                 </div>
 
             </div>
-            
+
             <div id="privateKeyModal" class="modal fade" role="dialog">
                 <div class="modal-dialog modal-lg">
 
@@ -172,7 +190,7 @@
                 dataType: "json",
                 method: "GET",
                 data: {
-                  dataType: "json"
+                    dataType: "json"
                 }
             },
 
@@ -181,17 +199,17 @@
 
         $("#reciept").easyAutocomplete(options);
 
-        function post(url, data, onSuccess){
+        function post(url, data, onSuccess) {
             $.ajax({
                 type: "POST",
                 url: url,
                 data: JSON.stringify(data),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                success: function(response,textStatus,jqXHR){
-                    onSuccess(response,textStatus,jqXHR);
+                success: function(response, textStatus, jqXHR) {
+                    onSuccess(response, textStatus, jqXHR);
                 }
-            });    
+            });
         }
 
         function closeModal() {
@@ -228,6 +246,14 @@
                 };
 
                 openpgp.encrypt(options).then(function(ciphertext) {
+                    encrypted = ciphertext.message.packets.write();
+                    console.log(encrypted)
+                    post("https://sealify.me/api/send", {
+                        "userfrom": "trombeard",
+                        "userto": to,
+                        "subject": sub,
+                        "message": encrypted
+                    }, null);
                     var encrypted = ciphertext.message.packets.write();
                     post("https://sealify.me/api/send", {"userto" : to, "subject" : sub, "message" : encrypted}, undefined);
                 });

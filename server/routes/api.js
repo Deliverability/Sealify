@@ -109,7 +109,7 @@ router.post('/create', function(req, res, next) {
 router.get('/logout', function(req, res, next) {
     //req.session.user = null;
     req.session.destroy();
-    res.send("Logged out");
+    res.redirect('/');
 });
 
 router.get('/write', function(req, res, next) {
