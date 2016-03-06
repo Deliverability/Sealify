@@ -194,14 +194,15 @@
 
     $("#reciept").easyAutocomplete(options);
 
-    function post(url, data) {
+    function post(url, data, success) {
         console.log(data);
         $.ajax({
             type: "POST",
             url: url,
             data: JSON.stringify(data),
             dataType: "json",
-            contentType: "application/json; charset=utf-8"
+            contentType: "application/json; charset=utf-8",
+            success: success
         });
     }
 
@@ -256,13 +257,13 @@
                             "userto": $("#reciept").val(),
                             "subject": sub,
                             "message": result_string
-                        });
+                        }, closeModal());
                     });
                 }
             });
         });
 
-        closeModal();
+        // closeModal();
     }
 
     function submitKey() {
